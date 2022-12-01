@@ -8,6 +8,5 @@ urlpatterns = [
 
     # PROFILE
     path('profile/'),
-    
 
 ]
