@@ -9,7 +9,7 @@ git clone https://github.com/preciousimo/veedeeohh_api.git
 
 2. Move into the directory where we have the project files
 ```bash
-cd advo_api
+cd veedeeohh_api
 ```
 
 3. Create a virtual environment :
