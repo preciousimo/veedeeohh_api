@@ -3,10 +3,10 @@ from . import views
 
 urlpatterns = [
     # CONTENT
-    path(''),
-    path('content/'), 
+    path('', views.endpoints),
+    path('contents/', views.content, name='contents'),
 
     # PROFILE
-    path('profile/'),
-
+    path('profiles/', views.profile, name='profiles'),
+    path('contents/<str:profile>/', views.profile_content),
 ]
