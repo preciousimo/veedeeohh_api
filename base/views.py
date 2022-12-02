@@ -15,19 +15,23 @@ from .serializers import ContentSerializer, ProfileSerializer
 def endpoints(request):
 
     data = ['/profiles', '/contents', 'contents/:profile']
-    
+
     return Response(data)
 
-@api_view(['GET', 'PUT', 'DELETE'])
+
+@api_view(['GET', 'POST'])
 # @permission_classes([IsAuthenticated])
 def content(request):
-    pass
+    contents = Content.objects.all()
+    serializer = ContentSerializer(contents, many=True)
+    return Response(serializer.data)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 # @permission_classes([IsAuthenticated])
 def profile_content(request):
     pass
 
-@api_view(['GET', 'POST'])
+
+@api_view(['GET', 'PUT', 'DELETE'])
 def profile(request):
     pass
