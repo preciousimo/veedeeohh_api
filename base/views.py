@@ -14,7 +14,8 @@ from .serializers import ContentSerializer, ProfileSerializer
 @api_view(['GET'])
 def endpoints(request):
 
-    data = ['/profiles', '/contents', 'contents/:profile']
+    # data = ['/profiles', '/contents', 'contents/:profile']
+    data = ['/contents']
 
     return Response(data)
 
