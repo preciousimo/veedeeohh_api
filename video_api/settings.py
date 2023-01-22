@@ -19,7 +19,8 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).resolve().parent.parent or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent or os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,12 +45,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'whitenoise.runserver_nostatic',   
+    'whitenoise.runserver_nostatic',
 
     'corsheaders',
 
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
 
     'base',
 
@@ -140,7 +142,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
@@ -160,5 +162,12 @@ AWS_STORAGE_BUCKET_NAME = 'veedeeohh'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
 
 CSRF_TRUSTED_ORIGINS = ['https://veedeeohh-api.up.railway.app']
