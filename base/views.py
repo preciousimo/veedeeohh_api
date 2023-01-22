@@ -3,6 +3,7 @@ from django.http import JsonResponse, Http404
 from django.db.models import Q
 from django.db import IntegrityError
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.decorators import api_view, permission_classes
@@ -16,14 +17,6 @@ from .serializers import ContentSerializer, ProfileSerializer
 
 
 # Create your views here.
-@api_view(['GET'])
-def endpoints(request):
-
-    # data = ['/profiles', '/contents', 'contents/:profile']
-    data = ['/contents']
-
-    return Response(data)
-
 
 @csrf_exempt
 def signup(request):
@@ -38,6 +31,30 @@ def signup(request):
 
         except IntegrityError:
             return JsonResponse({'error':'username taken, choose another username'}, status=400)
+            
+
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        user = authenticate(request, username=data['username'], password=data['password'])
+        if user is None:
+            return JsonResponse({'error':'unable to login. Check username and password'}, status=400)
+        else: # return user token
+            try:
+                token = Token.objects.get(user=user)
+            except: # If token not in db, create a new one
+                token = Token.objects.create(user=user)
+            return JsonResponse({'token':str(token)}, status=201)
+
+
+@api_view(['GET'])
+def endpoints(request):
+
+    # data = ['/profiles', '/contents', 'contents/:profile']
+    data = ['/contents']
+
+    return Response(data)
 
 
 @api_view(['GET', 'POST'])
