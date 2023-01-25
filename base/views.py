@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse, Http404
-from django.db.models import Q
-from django.db import IntegrityError
-from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.db.models import Q 
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 
@@ -13,24 +11,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Content, Profile
-from .serializers import ContentSerializer, ProfileSerializer
+from .serializers import ContentSerializer, ProfileSerializer, RegistrationSerializer
 
 
 # Create your views here.
 
 @csrf_exempt
+@api_view(['POST'])
 def signup(request):
     if request.method == 'POST':
-        try:
-            data = JSONParser().parse(request) # data is a dictionary
-            user = User.objects.create_user(username=data['username'], password=data['password'])
-            user.save()
-
+        serializer = RegistrationSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            user = serializer.save()
+            data['response'] = "New user registered"
+            data['username'] = user.username
             token = Token.objects.create(user=user)
             return JsonResponse({'token':str(token)}, status=201)
-
-        except IntegrityError:
-            return JsonResponse({'error':'username taken, choose another username'}, status=400)
+        else:
+            data = serializer.errors
+        return Response(data)
+            
             
 
 @csrf_exempt
@@ -58,7 +59,7 @@ def endpoints(request):
 
 
 @api_view(['GET', 'POST'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def content(request):
     contents = Content.objects.all()
     serializer = ContentSerializer(contents, many=True)
@@ -66,7 +67,7 @@ def content(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def profile_content(request):
     pass
 

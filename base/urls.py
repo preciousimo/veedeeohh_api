@@ -1,16 +1,16 @@
 from django.urls import path
-from . import views
+from .views import*
 
 urlpatterns = [
-    # AUTHENTICATION
-    path('signup/', views.signup),
-    path('login/', views.login),
+    # AUTHENTICATION 
+    path('signup/', signup, name='signup'),
+    path('login/', login),
 
     # CONTENT
-    path('', views.endpoints),
-    path('contents/', views.content, name='contents'),
+    path('', endpoints),
+    path('contents/', content, name='contents'),
 
     # PROFILE
-    path('profiles/', views.profile, name='profiles'),
-    path('contents/<str:profile>/', views.profile_content), # I don't know why i created this path hopefully i'll figure it
+    path('profiles/', profile, name='profiles'),
+    path('contents/<str:profile>/', profile_content), # I don't know why i created this path hopefully i'll figure it
 ]
