@@ -15,6 +15,13 @@ from .serializers import ContentSerializer, ProfileSerializer, RegistrationSeria
 
 
 # Create your views here.
+@api_view(['GET'])
+def endpoints(request):
+
+    # data = ['/profiles', '/contents', 'contents/:profile']
+    data = ['/contents']
+
+    return Response(data)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -26,7 +33,8 @@ def signup(request):
             user = serializer.save()
             data['response'] = "New user registered"
             data['username'] = user.username
-            token = Token.objects.create(user=user)
+            token = Token.objects.create(user=user).key
+            data['token'] = token
             return JsonResponse({'token':str(token)}, status=201)
         else:
             data = serializer.errors
@@ -48,14 +56,6 @@ def login(request):
                 token = Token.objects.create(user=user)
             return JsonResponse({'token':str(token)}, status=201)
 
-
-@api_view(['GET'])
-def endpoints(request):
-
-    # data = ['/profiles', '/contents', 'contents/:profile']
-    data = ['/contents']
-
-    return Response(data)
 
 
 @api_view(['GET', 'POST'])
