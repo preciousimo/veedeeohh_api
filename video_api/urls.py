@@ -20,7 +20,9 @@ from .views import endpoints
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', endpoints, name='endpoints'),
-    path("auth/", include("authtokens.urls", namespace="authtokens")),
+    # path("auth/", include("authtokens.urls", namespace="authtokens")),
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
     path("api/", include("base.urls", namespace="base")),
     path("users/", include("users.urls", namespace="users")),
 ]
