@@ -1,16 +1,9 @@
 from django.urls import path
-from .views import*
+from .views import ContentListView, ProfileListView
 
-urlpatterns = [
-    # AUTHENTICATION 
-    path('signup/', signup, name='signup'),
-    path('login/', login),
+app_name = "base"
 
-    # CONTENT
-    path('', endpoints),
-    path('contents/', content, name='contents'),
-
-    # PROFILE
-    path('profiles/', profile, name='profiles'),
-    path('contents/<str:profile>/', profile_content), # I don't know why i created this path hopefully i'll figure it
+urlpatterns = [ 
+    path("", ContentListView.as_view(), name="content-list"),
+    path("categories", ProfileListView.as_view(), name="category-list"), 
 ]
