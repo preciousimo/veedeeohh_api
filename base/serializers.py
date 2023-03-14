@@ -1,9 +1,15 @@
 from rest_framework import serializers
-from .models import Content, Profile
+from .models import Content, Profile, Topic
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
+        fields = '__all__'
+
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
         fields = '__all__'
     
 

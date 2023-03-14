@@ -12,6 +12,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Topic(models.Model):
+    name = models.CharField(max_length=200) 
+
+    def __str__(self):
+        return self.name 
 
 class Content(models.Model):
     thumbnail = models.ImageField(null=True, blank=True, upload_to="content/thumbnails/")
